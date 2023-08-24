@@ -1,0 +1,25 @@
+<!Doctype Html>  
+<Html>     
+<Head>      
+<Title>     
+GP 
+</Title>  
+<strong><nav>
+  <ul class="menu">
+    <li><a href="{{ url_for('gp') }}">return to gp</a></li>
+  </ul>
+</nav></strong>   
+</Head> 
+<Body>
+<div class="gp">
+This is a realization of a GP with exponential kernel <br>  
+<img src="data:image/png;base64, {{data}}" width="640" height="640" border="0" /> <br>
+This is the exact likelihood surface <br>
+<img src="data:image/png;base64, {{ll_data}}" width="640" height="480" border="0" /> <br>
+This is the uncalibrated neural likelihood surface <br>  
+<img src="data:image/png;base64, {{psi_data}}" width="640" height="480" border="0" /> <br>  
+This is the calibrated neural likelihood surface <br>  
+<img src="data:image/png;base64, {{calibrated_psi_data}}" width="640" height="480" border="0" /> <br>  
+</div>  
+</Body>  
+</Html> 

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <header>
+      <div class="container">
+        <h1 class="logo">Neural Likelihood for Spatial Processes with Intractable or Computationally Intensive Likelihoods</h1>
+        <strong><nav>
+          <ul class="menu">
+            <li><a href="{{ url_for('gp') }}">Gaussian Process</a></li>
+            <li><a href="{{ url_for('aboutme') }}">about me</a></li>
+          </ul>
+        </nav></strong>
+      </div>
+    </header>
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+    </div>
+    <div>
+      This website contains information as well as an interactive application for my work on likelihood free inference for spatial processes. 
+    </div>
+  </body>
+</html>

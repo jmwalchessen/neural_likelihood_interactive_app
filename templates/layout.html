@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {margin:0;}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #04AA6D;
+}
+</style>
+<Title>
+  Learning the Likelihood for Spatial Processes
+</Title>
+</head>
+<body>
+
+<ul>
+  <li><a class="active" href="{{ url_for('layout') }}">Home</a></li>
+  <li><a href="{{ url_for('gp') }}"">Gaussian Process</a></li>
+  <li><a href="{{ url_for('aboutme') }}">About Me</a></li>
+</ul>
+
+</div>
+<div class="header", style="padding:20px;margin-top:30px;background-color:#f7fafa;height:1500px;">
+  <h1>Neural Likelihood for Spatial Processes with Intractable or Computationally Intensive Likelihoods</h1>
+<div>
+
+<body>
+  <p><a href="https://arxiv.org/abs/2305.04634">arxiv link</a><p>
+
+  <p>This is a website containing an interactive app for the neural likelihood of a Gaussian Process.
+    To access the app, select GP in the menu bar. Note that length scale and variance must be between
+    0 and 2 and have no more than two digits after the decimal.
+  </p>
+
+</body>
+</html>
