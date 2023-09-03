@@ -1,3 +1,5 @@
+import os
+import webbrowser
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
@@ -33,8 +35,7 @@ def results(data, ll_data, psi_data, calibrated_psi_data):
 
     return '''
            <form method="POST">
-               <div> <label> Lengthscale should <label> <div>
-               <div><label>seed: <input type="number" name="seed" step = "1" min = "0"></label></div>
+               <div><label>seed: <input type="number" name="seed" step = "1" min = "0" defaultValue="1"></label></div>
                <div><label>length scale: <input type="number" name="lengthscale" min = "0" max = "2" step = "0.01"></label></div>
                <div><label>variance: <input type="number" name="variance" min="0" max = "2" step = "0.01"></label></div>
                <input type="submit" value="Submit">
@@ -97,11 +98,21 @@ def gp():
 
         matplotlib.use('Agg')
         figfile = BytesIO()
-        fig, ax = plt.subplots(figsize=(100, 100))
+        fig, ax = plt.subplots(figsize = (10,11))
         pixel_plot = ax.imshow(
-                y_image, interpolation='nearest', origin='lower', cmap = 'seismic')
-        plt.colorbar(pixel_plot)
-        plt.savefig(figfile, format='png')
+                y_image, interpolation='nearest', extent = (-10,10,-10,10), cmap = 'seismic')
+        ticks = [-10, -5, 0, 5, 10]
+        plt.xticks(ticks, fontsize= 20)
+        plt.yticks(ticks, fontsize = 20)
+        m0=round(np.quantile(y_image.flatten(), .01), 1)           # colorbar min value
+        m1=round(np.quantile(y_image.flatten(), .99), 1)           # colorbar max value
+        # to get ticks
+        ticks = [m0, 0, m1]
+        cbar = plt.colorbar(pixel_plot, ticks = ticks)
+        # get label
+        labels = [str(m0), '0', str(m1)]
+        cbar.set_ticklabels(labels, fontsize = 20)
+        fig.savefig(figfile, format='png')
         data = base64.encodebytes(figfile.getvalue())
         plt.close()
         
@@ -131,7 +142,13 @@ def gp():
                           markerfacecolor='none', markersize=20, linewidth = 8)]
         ax.legend(handles = legend_elements, facecolor='white', framealpha=1, fontsize="10")
         cbar = fig.colorbar(cp)
-        cbar.set_ticks([])
+        m1=round(np.max(Z), 1)          
+        m0=round((np.max(Z)-10),1)
+        ticks = np.linspace(m0, m1, 7)          
+        # get label
+        labels = [str(round(elem,1)) for elem in ticks]
+        cbar.set_ticks(ticks)
+        cbar.set_ticklabels(labels, fontsize = 10)
         ax.set_xlim(0.05, 2)
         ax.set_ylim(0.05, 2)
         plt.xlabel("length scale")
@@ -166,7 +183,13 @@ def gp():
                           markerfacecolor='none', markersize=20, linewidth = 8)]
         ax.legend(handles = legend_elements, facecolor='white', framealpha=1, fontsize="10")
         cbar = fig.colorbar(cp)
-        cbar.set_ticks([])
+        m1=round(np.max(Z), 1)          
+        m0=round((np.max(Z)-10),1)
+        ticks = np.linspace(m0, m1, 7)          
+        # get label
+        labels = [str(round(elem,1)) for elem in ticks]
+        cbar.set_ticks(ticks)
+        cbar.set_ticklabels(labels, fontsize = 10)
         ax.set_xlim(0.05, 2)
         ax.set_ylim(0.05, 2)
         plt.xlabel("length scale")
@@ -201,7 +224,13 @@ def gp():
                           markerfacecolor='none', markersize=20, linewidth = 8)]
         ax.legend(handles = legend_elements, facecolor='white', framealpha=1, fontsize="10")
         cbar = fig.colorbar(cp)
-        cbar.set_ticks([])
+        m1=round(np.quantile(Z, .99), 1)          
+        m0=round((np.max(Z)-constant),1)
+        ticks = np.linspace(m0, m1, 7)          
+        # get label
+        labels = [str(round(elem,1)) for elem in ticks]
+        cbar.set_ticks(ticks)
+        cbar.set_ticklabels(labels, fontsize = 10)
         ax.set_xlim(0.05, 2)
         ax.set_ylim(0.05, 2)
         plt.xlabel("length scale")
@@ -228,10 +257,20 @@ def gp():
                <div><label>variance: <input type="number" name="variance" min="0" step = "0.1"></label></div>
                <input type="submit" value="Submit">
            </form>'''
+
+def main():
+    
+    # The reloader has not yet run - open the browser
+    if not os.environ.get("WERKZEUG_RUN_MAIN"):
+        webbrowser.open_new('http://127.0.0.1:8000/')
+
+    # Otherwise, continue as normal
+    app.run(host="127.0.0.1", port=8000)
     
 
 #app.add_url_rule('/', 'get_data', get_data,
 #            methods=['GET', 'POST'])
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000, debug=True)
+
+    main()
